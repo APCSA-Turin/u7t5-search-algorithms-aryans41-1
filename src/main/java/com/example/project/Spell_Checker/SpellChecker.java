@@ -41,8 +41,6 @@ public class SpellChecker {
         return false;
     }
 
-
-
     /** This uses BINARY search to find a word in dictionary and returns
      *  true if the word is in dictionary and false otherwise.
      *
@@ -50,8 +48,24 @@ public class SpellChecker {
      *  prints that value out before returning.
      */
     public boolean binarySpellCheck(String word) {
-        return false;
-    }
+        loopCounter = 0; // for testing
+        int leftIdx = 0;
+        int rightIdx = dictionary.size() - 1;
+        while (leftIdx <= rightIdx) {
+            loopCounter++;
+            int middleIdx = (leftIdx + rightIdx) / 2;
+            if (word.compareTo(dictionary.get(middleIdx)) > 0) {
+                    leftIdx = middleIdx + 1;
+                } else if (word.compareTo(dictionary.get(middleIdx)) < 0) {
+                    rightIdx = middleIdx - 1;
+                } else {
+                    System.out.println("-- BINARY SEARCH: Number of words checked (loop iterations): " + loopCounter);
+                    return true;
+                }
+            }
+            System.out.println("-- LINEAR SEARCH: Number of words checked (loop iterations): " + loopCounter);
+            return false; // not found
+        }   
 
     // private helper method, called in the constructor, which loads the words
     // from the dictionary.txt text file into the "dictionary" instance variable!

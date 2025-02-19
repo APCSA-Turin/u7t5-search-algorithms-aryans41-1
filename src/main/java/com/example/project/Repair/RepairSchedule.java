@@ -12,26 +12,56 @@ public class RepairSchedule {
      * Precondition: n >= 0
      */
     public RepairSchedule(int n) {
-        /* to be implemented in part (a) */
+        numberOfMechanics = n;
+        schedule = new ArrayList<CarRepair>();
     }
 
-    public ArrayList<CarRepair> getSchedule() {
-        return schedule;
-    }
 
     /** Attempts to schedule a repair by a given mechanic in a given bay as described in part (a).
      * Precondition: 0 <= m < numberOfMechanics and b >= 0
      */
     public boolean addRepair(int m, int b) {
+        boolean available = true;
+        for (int i = 0; i < schedule.size(); i++) {
+            if (schedule.get(i).getMechanicNum() == m || schedule.get(i).getBayNum() == b) {
+                return false;
+            }
+        }
+        if (available == true) {
+            CarRepair repair = new CarRepair(m, b);
+            schedule.add(repair);
+        }
         return true;
     }
 
+    public ArrayList<CarRepair> getSchedule() {
+        return schedule;
+    }
+    
     /** Returns an ArrayList containing the mechanic identifiers of all available mechanics,
      * as described in part (b).
      */
     public ArrayList<Integer> availableMechanics() {
-        return new ArrayList<Integer>();
+        ArrayList<Integer> takenMechanics = new ArrayList<Integer>();
+        ArrayList<Integer> availableMechanics = new ArrayList<Integer>();
+        for (int i = 0; i < schedule.size(); i++) {
+            takenMechanics.add(schedule.get(i).getMechanicNum());
+        }
+        for (int i = 0; i < numberOfMechanics; i++) {
+            boolean contains = false;
+            for (int x = 0; x < takenMechanics.size(); x++) {
+                if (takenMechanics.get(x) == i) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (contains == false) {
+                availableMechanics.add(i);
+            }
+        }
+        return availableMechanics;
     }
+
 
     /** Removes an element from schedule when a repair is complete.
         THIS METHOD HAS BEEN ADDED FOR ILLUSTRATIVE PURPOSES ONLY,
